@@ -6,6 +6,8 @@ var EMPTY=''
 var gBoard
 var gLives=3
 var gBombsToFind=2
+var gTimer=0
+var timerInterval
 
 var gLevel = {
     SIZE: 4,
@@ -21,15 +23,21 @@ var gGame = {
 function onInit(){
     gBoard=createBoard()
     renderBoard()
-
+    clearInterval(timerInterval)
     var elLivesCounter=document.querySelector('.livesCounter')
     var elHints=document.querySelector('.hints')
     elHints.innerText='🪄 🪄 🪄'
+    var elSafety=document.querySelector('.safeButton')
+    elSafety.innerText='3 safety uses'
     isHintOn=false
     var text1='------------- \n'
     var text2='-------------'
     gLives=3
     numberOfHints=3
+    gTimer=0
+    safetyUsesLeft=3
+    var elTimer=document.querySelector('.timer')
+    elTimer.innerText=gTimer+'s'
     elLivesCounter.innerText=text1+' '+gLives + ' lives left \n'+text2
     gGame.isOn=false
     gGame.showncCount=0
@@ -101,12 +109,10 @@ function generateMines(){
 function onCellClicked(elcell, i, j) {
     const cell = gBoard[i][j]
     var selectedCell=elcell
-    console.log(cell.isShown)
     if(cell.isShown) return
     if(cell.isMarked) return
     if(isHintOn){
         var elHints=document.querySelector('.hints')
-        console.log(isHintOn)
         isHintOn=false
         numberOfHints--
         if(numberOfHints===2) elHints.innerText='🪨 🪄 🪄'
@@ -117,12 +123,14 @@ function onCellClicked(elcell, i, j) {
     }
     gGame.isShown++
     if(!gGame.isOn){
+        timerInterval=setInterval(timer,1000)
         gGame.isOn=true
         generateMines()
         addMineAroundCounts()
         countMinesAround()
         renderBoard()
         renderEmptyCell({i:i,j:j})
+        getEmptyCells()
     }
     if(cell.isMine){
         renderCell({i:i,j:j},MINE)
@@ -140,6 +148,7 @@ function onCellClicked(elcell, i, j) {
         }
         if(gLives===0){
             elEmote.innerText='💀'
+            gameOver()
         }
     }
     if(cell.isMarked){
@@ -164,11 +173,14 @@ function onCellClicked(elcell, i, j) {
     var elCounter=document.querySelector('.bombsCounter')
     elCounter.innerText=countMinesAround(gBoard,i,j) + ' bombs around it'
     cell.isShown=true
+    if(gBombsToFind===0){
+        gameOver()
+    }
 }
 
 function onRightClick(elcell, i, j) {
     const cell = gBoard[i][j]
-    if(!cell.isMine&&!cell.isShown){
+    if(!cell.isShown){
         renderCell({i:i,j:j},FLAG)
         if(cell.isMarked){
             renderCell({i:i,j:j},EMPTY)
@@ -203,6 +215,7 @@ function addMineAroundCounts(){
         }
     }
 }
+
 function countMinesAround(board, rowIdx, colIdx) {
     var count = 0
     for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
@@ -217,4 +230,18 @@ function countMinesAround(board, rowIdx, colIdx) {
         }
     }
     return count
+}
+
+function timer(){
+    gTimer++
+    var elTimer=document.querySelector('.timer')
+    elTimer.innerText=gTimer+'s'
+    if(gTimer>60){
+        elTimer.innerText=Math.round(gTimer/60)+'m '+gTimer%60+'s'
+    }
+}
+
+function gameOver(){
+    clearTimeout(hintTimeout)
+    gGame.isOn=false
 }

@@ -16,7 +16,6 @@ function renderNumberInCell(location, value) {
 }
 
 function unRenderNumberInCell(location) {
-    console.log(':(')
     const elCell = document.querySelector(`.cell-${location.i}-${location.j}`)
     elCell.classList.add('hidden')
     elCell.classList.remove('empty')
@@ -30,7 +29,6 @@ function renderEmptyCell(location){
 }
 
 function unRenderEmptyCell(location){
-    console.log(';(')
     const elCell = document.querySelector(`.cell-${location.i}-${location.j}`)
     elCell.classList.add('hidden')
     elCell.classList.remove('empty')

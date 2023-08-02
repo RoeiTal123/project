@@ -1,20 +1,23 @@
 <html>
     <head>
-        <title>first version</title>
+        <title>second version</title>
         <link rel="stylesheet" href="css/main.css">
     </head>
     <body onload="onInit()">
         <div class="bombsCounter">0</div>
         <div class="livesCounter">3 lives left</div>
         <button class="hints" onclick="onHints()">🪄 🪄 🪄</button>
+        <div class="timer">0</div>
         <table class="board">
           <tbody class="board-cells">
           </tbody>
         </table>
         <button class="restartGame" onclick="restartGame()">😁</button>
+        <button class="safeButton" onclick="showSafeCell()">3 safety uses</button>
         <script src="js/main.js"></script> 
         <script src="js/renders.js"></script>
-        <script src="js/bonus1.js"></script>
+        <script src="js/hint.js"></script>
         <script src="js/extra.js"></script>
+        <script src="js/safe.js"></script>
     </body>
 </html>

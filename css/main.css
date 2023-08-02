@@ -20,7 +20,16 @@ body {
 .hints{
     background-color: transparent;
     border: 0px;
-    margin-inline-start: 45%;
+    margin-inline-start: 47%;
+}
+
+.timer{
+    width: 50px;
+    background-color: aqua;
+    border: 5px solid blue;
+    border-radius: 5px;
+    margin-inline-start: 48%;
+    text-align: center;
 }
 
 .restartGame{
