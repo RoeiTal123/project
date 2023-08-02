@@ -1,6 +1,7 @@
 var MINE='💣'
 var FLAG='🚩'
 var hidden='🧱'
+var EMPTY=''
 
 var gBoard
 var gLives=3
@@ -20,12 +21,15 @@ var gGame = {
 function onInit(){
     gBoard=createBoard()
     renderBoard()
-    //generateMines()
 
     var elLivesCounter=document.querySelector('.livesCounter')
+    var elHints=document.querySelector('.hints')
+    elHints.innerText='🪄 🪄 🪄'
+    isHintOn=false
     var text1='------------- \n'
     var text2='-------------'
     gLives=3
+    numberOfHints=3
     elLivesCounter.innerText=text1+' '+gLives + ' lives left \n'+text2
     gGame.isOn=false
     gGame.showncCount=0
@@ -38,6 +42,7 @@ function onInit(){
 }
 
 function restartGame(){
+    clearTimeout(hintTimeout)
     onInit()
 }
 
@@ -70,7 +75,7 @@ function renderBoard() {
             const title = `Cell: ${i + 1}, ${j + 1}`
             strHTML += `\t<td  
                 title="${title}" class="${className}"  
-                onclick="onCellClicked(this,${i}, ${j})" >
+                onclick="onCellClicked(this,${i}, ${j})" oncontextmenu="onRightClick(this,${i}, ${j})">
                 </td>\n`
         }
         strHTML += `</tr>\n`
@@ -93,21 +98,23 @@ function generateMines(){
     }
 }
 
-function renderhidden(){
-    for (var i = 0; i < gBoard.length; i++) {
-        for (var j = 0; j < gBoard[0].length; j++) {
-            const cell = gBoard[i][j]
-            if(!cell.isMine&&!cell.isMarked&&!cell.isShown) {
-                renderCell({i:i,j:j},hidden)
-            }
-        }
-    }
-}
-
 function onCellClicked(elcell, i, j) {
     const cell = gBoard[i][j]
     var selectedCell=elcell
+    console.log(cell.isShown)
     if(cell.isShown) return
+    if(cell.isMarked) return
+    if(isHintOn){
+        var elHints=document.querySelector('.hints')
+        console.log(isHintOn)
+        isHintOn=false
+        numberOfHints--
+        if(numberOfHints===2) elHints.innerText='🪨 🪄 🪄'
+        if(numberOfHints===1) elHints.innerText='🪨 🪨 🪄'
+        if(numberOfHints===0) elHints.innerText='🪨 🪨 🪨'
+        revealCellsAroundTemporarly(gBoard,i,j)
+        return
+    }
     gGame.isShown++
     if(!gGame.isOn){
         gGame.isOn=true
@@ -129,6 +136,10 @@ function onCellClicked(elcell, i, j) {
         gBombsToFind--
         if(gLives===1){
             elLivesCounter.innerText=text1+'1 life left \n'+text2
+            elEmote.innerText='😭'
+        }
+        if(gLives===0){
+            elEmote.innerText='💀'
         }
     }
     if(cell.isMarked){
@@ -155,7 +166,19 @@ function onCellClicked(elcell, i, j) {
     cell.isShown=true
 }
 
-function revealCellsAround(board, rowIdx, colIdx, selectedCell){
+function onRightClick(elcell, i, j) {
+    const cell = gBoard[i][j]
+    if(!cell.isMine&&!cell.isShown){
+        renderCell({i:i,j:j},FLAG)
+        if(cell.isMarked){
+            renderCell({i:i,j:j},EMPTY)
+            cell.isMarked=false
+        } else {
+            cell.isMarked=true
+        }
+    }
+}
+function revealCellsAround(board, rowIdx, colIdx){
     for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
         if (i < 0 || i >= board.length) continue
         for (var j = colIdx - 1; j <= colIdx + 1; j++) {
@@ -194,25 +217,4 @@ function countMinesAround(board, rowIdx, colIdx) {
         }
     }
     return count
-}
-
-function getRandomInt(min,max){
-	min=Math.floor(min)
-	max=Math.ceil(max)
-	return Math.floor((Math.random()*max-min)+min)
-}
-
-function gethiddenCells(){
-	var hiddenCells=[]
-	for (var i = 0; i < 10; i++) {
-		for (var j = 0; j < 12; j++) {
-			var hiddenCell={}
-			if(gBoard[i][j]===hidden){
-				hiddenCell.i=i
-				hiddenCell.j=j
-				hiddenCells.push(hiddenCell)
-			}
-		}
-	}
-	return hiddenCells
 }

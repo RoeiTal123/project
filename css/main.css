@@ -17,10 +17,16 @@ body {
     text-align: center;
 }
 
-.restartGame{
-    margin-inline-start: 395px;
+.hints{
     background-color: transparent;
     border: 0px;
+    margin-inline-start: 45%;
+}
+
+.restartGame{
+    margin-inline-start: 48.5%;
+    /* background-color: transparent;
+    border: 0px; */
 }
 .board {
     padding-top: 60px;
