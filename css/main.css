@@ -3,9 +3,10 @@ body {
     color: white;
 }
   
-.bombsCounter{
+.minesCounter{
     width:200px;
-    background-color: red;
+    background-color: white;
+    color: black;
     margin: auto;
     text-align: center;
 }
@@ -13,30 +14,48 @@ body {
 .livesCounter {
     width: 500px;
     background-color: pink;
+    color: black;
     margin:auto;
     text-align: center;
 }
 
 .hints{
     background-color: transparent;
-    border: 0px;
-    margin-inline-start: 47%;
+    border: 3px solid black;
+    border-radius: 5%;
+    margin-inline-start: 35%;
+}
+
+.difficulty{
+    background-color: white;
+    color: black;
 }
 
 .timer{
     width: 50px;
     background-color: aqua;
+    color: black;
     border: 5px solid blue;
     border-radius: 5px;
     margin-inline-start: 48%;
     text-align: center;
 }
 
-.restartGame{
-    margin-inline-start: 48.5%;
+.onRestartGame{
+    margin-inline-start: 38%;
+    background-color: white;
     /* background-color: transparent;
     border: 0px; */
 }
+
+.safeButton{
+    background-color: white;
+}
+
+.exterminator{
+    background-color: white;
+}
+
 .board {
     padding-top: 60px;
     width: 250px;
@@ -70,4 +89,9 @@ table {
     width: 50px;
     height: 50px;
     text-align: center;
+}
+
+.darkModeSwitch{
+    background-color: white;
+    color: black;
 }

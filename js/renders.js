@@ -44,3 +44,24 @@ function renderhidden(){
         }
     }
 }
+
+function renderWholeScreen(){
+    for (var i = 0; i < gBoard.length; i++) {
+        for (var j = 0; j < gBoard[0].length; j++) {
+            const cell = gBoard[i][j]
+            if(!cell.isShown) cell.isShown
+            gBoard[i][j].minesAroundCount=0
+            unRenderNumberInCell({i:i,j:j})
+            renderEmptyCell({i:i,j:j})
+        }
+    }
+}
+
+function renderAllMines(){
+    for (var i = 0; i < gBoard.length; i++) {
+        for (var j = 0; j < gBoard[0].length; j++) {
+            const cell = gBoard[i][j]
+            if(cell.isMine) renderCell({i:i,j:j},MINE)
+        }
+    }
+}

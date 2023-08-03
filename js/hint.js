@@ -5,19 +5,19 @@ var isHintOn=false
 var hintTimeout
 var gCellsToReveal
 var gCellsToHide=[]
-var numberOfHints=3
+var gNumberOfHints=3
 
 function onHints(){
     var elHints=document.querySelector('.hints')
     if(isHintOn||!gGame.isOn) return
     isHintOn=true
-    if(numberOfHints===3){
+    if(gNumberOfHints===3){
         elHints.innerText='🔮 🪄 🪄'
     }
-    if(numberOfHints===2){
+    if(gNumberOfHints===2){
         elHints.innerText='🪨 🔮 🪄'
     }
-    if(numberOfHints===1){
+    if(gNumberOfHints===1){
         elHints.innerText='🪨 🪨 🔮'
     }
 }
