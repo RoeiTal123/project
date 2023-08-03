@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title>final original version</title>
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body oncontextmenu="return false;" onload="onInit()" class="body">
+        <div class="minesCounter">X bombs around it</div>
+        <div class="livesCounter">3 lives left</div>
+        <button class="hints" onclick="onHints()">🪄 🪄 🪄</button>
+        <button class="difficulty" onclick="onChangeDifficulty()">Easy (4x4 , 2 mines)</button>
+        <button class="darkModeSwitch" onclick="darkmodeSwitch()">☀️ -> 🌕</button>
+        <div class="timer">0</div>
+        <table class="board">
+          <tbody class="board-cells">
+          </tbody>
+        </table>
+        <button class="onRestartGame" onclick="onRestartGame()">😁</button>
+        <button class="safeButton" onclick="showSafeCell()">3 safety uses</button>
+        <button class="exterminator" onclick="onExtermination()">EXTERMINATION!</button>
+        <button class="undo" onclick="onUndo()">Undo</button>
+        <script src="js/main.js"></script> 
+        <script src="js/renders.js"></script>
+        <script src="js/hint.js"></script>
+        <script src="js/extra.js"></script>
+        <script src="js/safe.js"></script>
+        <script src="js/mineexterminator.js"></script>
+    </body>
+</html>
